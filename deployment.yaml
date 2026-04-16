@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: conference-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: conference
+  template:
+    metadata:
+      labels:
+        app: conference
+    spec:
+      containers:
+      - name: conference-container
+        image: tharangini0510/springboot-app:latest # Match your DockerHub image
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+
+        apiVersion: v1
+kind: Service
+metadata:
+  name: conference-service
+spec:
+  type: NodePort
+  selector:
+    app: conference
+  ports:
+    - port: 80
+      targetPort: 80
+      nodePort: 30007 # Visualize your deployment here
